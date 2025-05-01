@@ -42,6 +42,8 @@ class Pokemon:
         "_protect_counter",
         "_shiny",
         "_stats",
+        "_evs",
+        "_nature",
         "_revealed",
         "_species",
         "_status",
@@ -119,6 +121,15 @@ class Pokemon:
             "spd": None,
             "spe": None,
         }
+        self._evs: Dict[str, Optional[int]] = {
+            "hp": None,
+            "atk": None,
+            "def": None,
+            "spa": None,
+            "spd": None,
+            "spe": None,
+        }
+        self._nature = 'Serious'
         self._status: Optional[Status] = None
         self._status_counter: int = 0
         self._temporary_ability: Optional[str] = None
@@ -135,6 +146,18 @@ class Pokemon:
 
         if name is not None:
             self._name = name
+        if(teambuilder is not None):
+            ## print(f'[From {__name__}] teambuilder evs = {type(teambuilder.evs)} {teambuilder.evs}')
+            ## [From poke_env.environment.pokemon] teambuilder evs = <class 'list'> [0, 252, 4, 0, 0, 252]
+            self._evs["hp"] = teambuilder.evs[0]
+            self._evs["atk"] = teambuilder.evs[1]
+            self._evs["def"] = teambuilder.evs[2]
+            self._evs["spa"] = teambuilder.evs[3]
+            self._evs["spd"] = teambuilder.evs[4]
+            self._evs["spe"] = teambuilder.evs[5]
+
+            self._nature = teambuilder.nature
+
 
     def __repr__(self) -> str:
         return self.__str__()
@@ -147,6 +170,7 @@ class Pokemon:
 
         return (
             f"{self._species} (pokemon object) "
+            f"{self._stats}"
             f"[Active: {self._active}, Status: {status_repr}]"
         )
 
