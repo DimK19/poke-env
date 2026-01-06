@@ -113,3 +113,8 @@ venv.bak/
 
 # PyCharm
 .idea/
+
+Scripts/
+config.ini
+pyvenv.cfg
+replays/

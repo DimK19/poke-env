@@ -171,13 +171,12 @@ class Player(ABC):
         ## TODO: If opp_team is None (should never happen)
         ## TODO: Change name of foo
         self._foo = {}
-        for mon in self._opp_team.team:
-            ## BUG: Species name is stored in nickname attribute instead of species attribute
-            ## print(f'{mon.nickname} {mon.nature} {mon.evs}\n')
+        for mon in self._team.team:
             self._foo.update({
-                mon.nickname.lower(): {
+                mon.nickname.lower().replace('-', ''): {
                     'nature': mon.nature,
                     'item': mon.item,
+                    'ability': mon.ability,
                     'evs': {
                         'hp': mon.evs[0],
                         'atk': mon.evs[1],
@@ -185,10 +184,31 @@ class Player(ABC):
                         'spa': mon.evs[3],
                         'spd': mon.evs[4],
                         'spe': mon.evs[5]
-                    }
+                    },
+                    'speed': None
                 }
             })
-        print(self._foo)
+
+        for mon in self._opp_team.team:
+            ## BUG: Species name is stored in nickname attribute instead of species attribute
+            ## #print(f'{mon.nickname} {mon.nature} {mon.evs}\n')
+            self._foo.update({
+                mon.nickname.lower().replace('-', ''): {
+                    'nature': mon.nature,
+                    'item': mon.item,
+                    'ability': mon.ability,
+                    'evs': {
+                        'hp': mon.evs[0],
+                        'atk': mon.evs[1],
+                        'def': mon.evs[2],
+                        'spa': mon.evs[3],
+                        'spd': mon.evs[4],
+                        'spe': mon.evs[5]
+                    },
+                    'speed': None
+                }
+            })
+        ## #print(self._foo)
 
         self.logger.debug("Player initialisation finished")
 
@@ -436,7 +456,7 @@ class Player(ABC):
                 return
             message = self.teampreview(battle)
         else:
-            print(f'[From {__name__}] line 438 calling choose_move')
+            ## #print(f'[From {__name__}] line 438 calling choose_move')
             choice = self.choose_move(battle)
             if isinstance(choice, Awaitable):
                 choice = await choice

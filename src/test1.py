@@ -2,61 +2,19 @@ from poke_env.player.random_player import RandomPlayer
 from poke_env.player.max_damage_player import MaxDamagePlayer
 from poke_env.ps_client import ShowdownServerConfiguration, AccountConfiguration
 from poke_env.data import GenData
+from poke_env.data.teams import gard, scizor
 
-snorlax = """
-Snorlax @ Expert Belt
-Ability: Thick Fat
-Tera Type: Normal
-EVs: 252 HP / 252 Atk / 4 Def
-Adamant Nature
-- Fire Punch
-- Ice Punch
-- Heavy Slam
-- Body Slam
-"""
+from configparser import ConfigParser
 
-scizor = """
-Scizor @ Iron Plate
-Ability: Technician
-Tera Type: Bug
-EVs: 252 Atk / 4 SpD / 252 Spe
-Adamant Nature
-- Bullet Punch
-- Close Combat
-- Counter
-- Agility
-"""
-
-mence = """
-Salamence @ Sky Plate
-Ability: Moxie
-Tera Type: Dragon
-EVs: 252 Atk / 164 Def / 4 SpD / 88 Spe
-Adamant Nature
-- Temper Flare
-- Outrage
-- Dual Wingbeat
-- Iron Head
-"""
-
-gard = """
-Gardevoir @ Choice Specs
-Ability: Trace
-Tera Type: Psychic
-EVs: 4 Def / 252 SpA / 252 Spe
-Modest Nature
-IVs: 0 Atk
-- Moonblast
-- Mystical Fire
-- Aura Sphere
-- Psyshock
-"""
+config = ConfigParser()
+config.read('C:\\Users\\KYRIAKOS\\Documents\\poke-env\\config.ini', encoding = 'utf-8')
 
 # The RandomPlayer is a basic agent that makes decisions randomly,
 # serving as a starting point for more complex agent development.
 first_player = MaxDamagePlayer(
     ##server_configuration = ShowdownServerConfiguration,
-    account_configuration = AccountConfiguration("Lechode", "TY5WMfgR9DMX3Dr"),
+    account_configuration = AccountConfiguration(config['PLAYER 1']['USERNAME'],
+                                                 config['PLAYER 1']['PASSWORD']),
     save_replays = "C:\\Users\\KYRIAKOS\\Music\\poke-env\\replays",
     battle_format="gen9nationaldex",
     team = scizor,
@@ -64,7 +22,8 @@ first_player = MaxDamagePlayer(
 )
 second_player = MaxDamagePlayer(
     ##server_configuration = ShowdownServerConfiguration,
-    account_configuration = AccountConfiguration("nacrotic", "TY5WMfgR9DMX3Dr"),
+    account_configuration = AccountConfiguration(config['PLAYER 2']['USERNAME'],
+                                                 config['PLAYER 2']['PASSWORD']),
     battle_format="gen9nationaldex",
     team = gard,
     opp_team = scizor

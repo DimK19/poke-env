@@ -872,6 +872,8 @@ class AbstractBattle(ABC):
             player, details = event[2:4]
             self._register_teampreview_pokemon(player, details)
         elif event[1] == "raw":
+            pass
+            '''
             username, rating_info = event[2].split("'s rating: ")
             rating_int = int(rating_info[:4])
             if username == self.player_username:
@@ -886,6 +888,7 @@ class AbstractBattle(ABC):
                     self.player_username,
                     self.opponent_username,
                 )
+            '''
         elif event[1] == "replace":
             pokemon = event[2]
             details = event[3]
